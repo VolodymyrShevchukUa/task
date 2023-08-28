@@ -1,5 +1,6 @@
 package com.volodymyr.task.service
 
+import com.volodymyr.task.dto.PostDto
 import com.volodymyr.task.entity.Comment
 import com.volodymyr.task.entity.Post
 import com.volodymyr.task.entity.User
@@ -30,11 +31,11 @@ class PostService {
         postRepository.save(post)
     }
 
-    List<Post> getPosts(Authentication authentication, String userName) {
+    List<PostDto> getPosts(Authentication authentication, String userName) {
          List posts = StringUtils.isEmpty(userName)
                 ? postRepository.findAllByOwner(userService.getAuthenticatedUser(authentication))
                 : postRepository.findAllByOwner(userService.getUser(userName))
-        return posts
+        return posts.stream().map {PostDto::new}.toList()
 
     }
 
@@ -75,9 +76,11 @@ class PostService {
         return post
     }
 
-    List<Post> getSubscribedFeed(Authentication authentication){
+    List<PostDto> getSubscribedFeed(Authentication authentication){
         def user = userService.getAuthenticatedUser(authentication)
-        postRepository.findAllByOwnerIn(userService.getUsersByUsernames(user.getSubscribedThread().toList()))
+        return postRepository.findAllByOwnerIn(userService.getUsersByUsernames(user.getSubscribedThread().toList()))
+                .stream()
+                .map {PostDto::new}.toList()
     }
 
     Post changePost(Authentication authentication, ObjectId postId, String newComment){

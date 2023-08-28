@@ -1,5 +1,6 @@
 package com.volodymyr.task.controller
 
+import com.volodymyr.task.dto.PostDto
 import com.volodymyr.task.entity.Post
 import com.volodymyr.task.service.PostService
 import org.bson.types.ObjectId
@@ -16,7 +17,7 @@ class PostController {
     PostService postService
 
     @GetMapping
-    ResponseEntity<List<Post>> getPost(Authentication authentication, String userName) {
+    ResponseEntity<List<PostDto>> getPost(Authentication authentication, String userName) {
         return ResponseEntity.ok(postService.getPosts(authentication, userName))
     }
 
@@ -61,7 +62,7 @@ class PostController {
     }
 
     @GetMapping("/get-news-feed")
-    ResponseEntity<List<Post>> getNewsFeed(Authentication authentication) {
+    ResponseEntity<List<PostDto>> getNewsFeed(Authentication authentication) {
         return ResponseEntity.ok(postService.getSubscribedFeed(authentication))
     }
 }
