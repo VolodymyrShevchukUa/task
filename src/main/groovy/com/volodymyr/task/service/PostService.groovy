@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 
 import java.nio.file.AccessDeniedException
+import java.util.stream.Collectors
+import java.util.stream.Stream
 
 @Service
 class PostService {
@@ -35,7 +37,7 @@ class PostService {
          List posts = StringUtils.isEmpty(userName)
                 ? postRepository.findAllByOwner(userService.getAuthenticatedUser(authentication))
                 : postRepository.findAllByOwner(userService.getUser(userName))
-        return posts.stream().map {PostDto::new}.toList()
+        return posts.stream().map {post -> new PostDto(post) }.toList()
 
     }
 

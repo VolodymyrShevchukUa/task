@@ -2,11 +2,9 @@ package com.volodymyr.task.dto
 
 import com.volodymyr.task.entity.Comment
 import com.volodymyr.task.entity.Post
-import lombok.Getter
-import lombok.Setter
+import lombok.Data
 
-@Getter
-@Setter
+@Data
 class PostDto {
 
     String id
