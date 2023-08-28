@@ -21,7 +21,7 @@ class PostController {
         return ResponseEntity.ok(postService.getPosts(authentication, userName))
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     ResponseEntity<String> createPost(Authentication authentication, @RequestParam(required = true) String text) {
         postService.createPost(authentication, text)
         return ResponseEntity.ok("Created")
